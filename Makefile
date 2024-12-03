@@ -2,7 +2,7 @@
 DOCKER_IMAGE=qgis-custom-image
 DOCKER_TAG=latest
 DOCKERFILE=.docker/qgis.dockerfile
-DOCKER_COMPOSE_FILE=docker-compose.yml
+DOCKER_COMPOSE_FILE=docker-compose-testing.yml
 
 # Environment variables
 QGIS_WORKSPACE=/path/to/qgis/workspace
@@ -18,10 +18,13 @@ build:
 # Run a container from the built image
 run:
 	@echo "Running QGIS container..."
+	@bash -c 'xhost + && \
 	docker run --rm -it \
 		-v $(QGIS_WORKSPACE):/root/QGIS \
 		-v $(QGIS_COMMON_GIT_DIR):$(QGIS_COMMON_GIT_DIR) \
-		$(DOCKER_IMAGE):$(DOCKER_TAG) /bin/bash
+		-e DISPLAY=$(DISPLAY) \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		$(DOCKER_IMAGE):$(DOCKER_TAG) /bin/bash'
 
 # Use Docker Compose to start services
 up:

@@ -29,7 +29,7 @@ services:
 
   qgis-deps:
     tty: true
-    image: qgis3-build-deps-binary-image
+    image: qgis3-build-deps-binary-image:latest
     volumes:
       - ${QGIS_WORKSPACE}:/root/QGIS
       - ${QGIS_COMMON_GIT_DIR}:${QGIS_COMMON_GIT_DIR}
